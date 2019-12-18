@@ -1,0 +1,46 @@
+#app {
+  background-color: rgba(4, 4, 10, 0.822);
+  padding-top: 1%;
+}
+
+.btn {
+  width: 100px;
+  border-radius: 0px;
+}
+
+#video {
+  margin-left: 1%;
+  margin-right: 1%;
+  height: 100%;
+  display: none;
+}
+
+#button-wrapper {
+  margin-left: 3%;
+  margin-right: 3%;
+  background-color: rgb(255, 255, 255);
+  border-radius: 0px;
+  padding: 0;
+}
+
+.col {
+  padding-top: 10px;
+  padding-bottom: 10px;
+  display: flex;
+  justify-content: center;
+}
+
+#stop {
+  display: none;
+}
+
+#table-wrapper {
+  margin-top: 20px;
+  margin-left: 3%;
+  margin-right: 3%;
+  background-color: rgb(255, 255, 255);
+  border-radius: 0px;
+  padding-left: 10px;
+  padding-right: 10px;
+  height: 550px;
+}

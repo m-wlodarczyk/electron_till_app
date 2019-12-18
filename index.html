@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Autonomous cash till</title>
+
+    <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="styles/index.css" rel="stylesheet" />
+
+    <script src="camLinker.js"></script>
+    <script src="zmqLinker.js"></script>
+  </head>
+  <body id="app">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-md-7">
+          <img id="video" />
+        </div>
+        <div class="col-md-5">
+          <div id="button-wrapper" class="row">
+            <div class="col col-4">
+              <button
+                onclick="run_camera(); sub();"
+                id="camera-btn"
+                type="button"
+                class="btn btn-primary"
+              >
+                Camera
+              </button>
+            </div>
+            <div class="col col-4">
+              <button
+                onclick="run_vid(); rec_video();"
+                id="vid1-btn"
+                type="button"
+                class="btn btn-primary"
+              >
+                Video #1
+              </button>
+              <button id="stop" onclick="send_msg()" class="btn btn-danger">
+                Stop
+              </button>
+            </div>
+            <div class="col col-4">
+              <button
+                onclick="send_msg()"
+                id="vid2-btn"
+                type="button"
+                class="btn btn-primary"
+              >
+                Video #2
+              </button>
+            </div>
+          </div>
+          <div id="table-wrapper" class="row">
+            <table class="table table-sm table-hover">
+              <thead>
+                <tr>
+                  <th scope="col">#</th>
+                  <th scope="col">Product name</th>
+                  <th scope="col">Quantity</th>
+                </tr>
+              </thead>
+              <tbody></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="bootstrap/js/jquery.min.js"></script>
+    <script src="bootstrap/js/bootstrap.min.js"></script>
+    <script src="bootstrap/js/scripts.js"></script>
+  </body>
+</html>
