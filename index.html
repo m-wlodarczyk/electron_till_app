@@ -9,23 +9,24 @@
     <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet" />
     <link href="styles/index.css" rel="stylesheet" />
 
-    <script src="connector.js"></script>
+    <!-- <script src="connector.js"></script>
     <script>
       let connector = new Connector();
-    </script>
+    </script> -->
+    <script src="utils.js"></script>
   </head>
   <body id="app">
     <div class="container-fluid">
       <div class="row">
         <div class="col-md-7">
           <img id="video" />
-          <img id="logo" src="rysunek.png" />
+          <img id="logo" src="styles/logo.png" />
         </div>
         <div class="col-md-5">
           <div id="button-wrapper" class="row">
             <div class="col col-4">
               <button
-                onclick="connector.subscribe('camera')"
+                onclick="subscribe('camera')"
                 id="camera-btn"
                 type="button"
                 class="btn btn-primary"
@@ -35,18 +36,14 @@
             </div>
             <div class="col col-4">
               <button
-                onclick="connector.subscribe('video')"
+                onclick="subscribe('video')"
                 id="vid1-btn"
                 type="button"
                 class="btn btn-primary"
               >
                 Video #1
               </button>
-              <button
-                onclick="connector.kill_video()"
-                id="stop"
-                class="btn btn-danger"
-              >
+              <button onclick="endReceiving()" id="stop" class="btn btn-danger">
                 Stop
               </button>
             </div>
