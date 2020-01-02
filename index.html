@@ -9,20 +9,23 @@
     <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet" />
     <link href="styles/index.css" rel="stylesheet" />
 
-    <script src="camLinker.js"></script>
-    <script src="zmqLinker.js"></script>
+    <script src="connector.js"></script>
+    <script>
+      let connector = new Connector();
+    </script>
   </head>
   <body id="app">
     <div class="container-fluid">
       <div class="row">
         <div class="col-md-7">
           <img id="video" />
+          <img id="logo" src="rysunek.png" />
         </div>
         <div class="col-md-5">
           <div id="button-wrapper" class="row">
             <div class="col col-4">
               <button
-                onclick="run_camera(); sub();"
+                onclick="connector.subscribe('camera')"
                 id="camera-btn"
                 type="button"
                 class="btn btn-primary"
@@ -32,20 +35,24 @@
             </div>
             <div class="col col-4">
               <button
-                onclick="run_vid(); rec_video();"
+                onclick="connector.subscribe('video')"
                 id="vid1-btn"
                 type="button"
                 class="btn btn-primary"
               >
                 Video #1
               </button>
-              <button id="stop" onclick="send_msg()" class="btn btn-danger">
+              <button
+                onclick="connector.kill_video()"
+                id="stop"
+                class="btn btn-danger"
+              >
                 Stop
               </button>
             </div>
             <div class="col col-4">
               <button
-                onclick="send_msg()"
+                onclick=""
                 id="vid2-btn"
                 type="button"
                 class="btn btn-primary"

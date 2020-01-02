@@ -15,6 +15,13 @@
   display: none;
 }
 
+#logo {
+  max-width: 300px;
+  max-height: 210px;
+  margin-top: 24%;
+  margin-left: 35%;
+}
+
 #button-wrapper {
   margin-left: 3%;
   margin-right: 3%;

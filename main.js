@@ -1,5 +1,12 @@
 // Modules
 const { app, BrowserWindow } = require("electron");
+let path = require("path");
+let { PythonShell } = require("python-shell");
+
+let options = {
+  pythonPath: path.join(__dirname, "\\venv\\Scripts\\python.exe"),
+  scriptPath: path.join(__dirname, "\\python-scripts\\")
+};
 
 let mainWindow;
 
@@ -8,7 +15,7 @@ function createWindow() {
   mainWindow = new BrowserWindow({
     height: 725,
     width: 1450,
-    resizable: false,
+    // resizable: false,
     webPreferences: { nodeIntegration: true }
   });
 
@@ -24,9 +31,13 @@ function createWindow() {
   });
 }
 
+function run_script() {
+  PythonShell.run("backend.py", options, function() {});
+}
+
 // Electron `app` is ready
 app.on("ready", createWindow);
-// app.on('ready', createWindow)
+app.on("ready", run_script);
 
 // Quit when all windows are closed - (Not macOS - Darwin)
 app.on("window-all-closed", () => {
