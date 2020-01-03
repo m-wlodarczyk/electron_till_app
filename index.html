@@ -9,10 +9,6 @@
     <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet" />
     <link href="styles/index.css" rel="stylesheet" />
 
-    <!-- <script src="connector.js"></script>
-    <script>
-      let connector = new Connector();
-    </script> -->
     <script src="utils.js"></script>
   </head>
   <body id="app">
@@ -26,7 +22,7 @@
           <div id="button-wrapper" class="row">
             <div class="col col-4">
               <button
-                onclick="subscribe('camera')"
+                onclick="subscribe('camera'); receiveDetection()"
                 id="camera-btn"
                 type="button"
                 class="btn btn-primary"
@@ -49,7 +45,7 @@
             </div>
             <div class="col col-4">
               <button
-                onclick=""
+                onclick="addItem('name', 'quantity')"
                 id="vid2-btn"
                 type="button"
                 class="btn btn-primary"
@@ -59,7 +55,7 @@
             </div>
           </div>
           <div id="table-wrapper" class="row">
-            <table class="table table-sm table-hover">
+            <table class="table table-sm table-hover" id="products">
               <thead>
                 <tr>
                   <th scope="col">#</th>

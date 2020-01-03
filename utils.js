@@ -23,8 +23,21 @@ function receiveVideo() {
 
 function receiveDetection() {
   itemSubscriber.on("message", function(topic, message) {
-    let array = Array.from(message);
+    console.log(message);
   });
+}
+
+function addItem(name, quantity) {
+  let tableRef = document.getElementById("products");
+  let row = tableRef.insertRow(-1);
+
+  let num = row.insertCell(0);
+  let pName = row.insertCell(1);
+  let pQuantity = row.insertCell(2);
+
+  num.innerHTML = "1";
+  pName.innerHTML = name;
+  pQuantity.innerHTML = quantity;
 }
 
 function subscribe(source) {
@@ -32,7 +45,7 @@ function subscribe(source) {
   socket.send(source);
 
   receiveVideo();
-  receiveDetection();
+  // receiveDetection();
 }
 
 function endReceiving() {

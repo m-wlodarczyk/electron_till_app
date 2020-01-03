@@ -4,7 +4,6 @@ import zmq
 import threading
 import base64
 
-import random
 from random import random
 
 
@@ -23,8 +22,8 @@ class Camera:
 
         self.__run = True
 
-        self.products = np.zeros(11)
-        self.products[0] = 11
+        # self.products = np.zeros(11)
+        # self.products[0] = 11
 
         end_rec_thread = threading.Thread(target=self.end_recording)
         end_rec_thread.start()
@@ -51,9 +50,8 @@ class Camera:
 
     def detect(self):
         r = random()
-        if r < 0.01:
-            self.__footage_socket.send_multipart(
-                [b"item", self.__to_byte_list(self.products)])
+        if r < 0.05:
+            self.__footage_socket.send_multipart([b'item', b'sample'])
 
     def play_video(self):
         self.__run = True
@@ -67,7 +65,6 @@ class Camera:
                 encoded, buffer = cv2.imencode('.jpg', frame)
                 jpg_as_text = base64.b64encode(buffer)
                 self.__footage_socket.send_multipart([b"video", jpg_as_text])
-                self.detect()
 
     def end_recording(self):
         while True:
