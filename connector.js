@@ -33,7 +33,7 @@ class Connector {
   }
 
   receive_footage() {
-    this.footageSubscriber.on("message", function(topic, message) {
+    this.footageSubscriber.on("message", (topic, message) => {
       const img = document.getElementById("video");
       img.src = `data:image/jpeg;base64,${message}`;
     });

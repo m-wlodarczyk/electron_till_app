@@ -23,7 +23,9 @@ function receiveVideo() {
 
 function receiveDetection() {
   itemSubscriber.on("message", function(topic, message) {
+    console.log("Item");
     console.log(message);
+    addItem("sample", "quantity");
   });
 }
 
@@ -38,7 +40,15 @@ function addItem(name, quantity) {
   num.innerHTML = "1";
   pName.innerHTML = name;
   pQuantity.innerHTML = quantity;
+  console.log(document.getElementById("products").rows.length - 1);
 }
+
+const clearTable = () => {
+  let rows = document.getElementById("products").rows.length - 1;
+  for (let i = 0; i < rows; i++) {
+    document.getElementById("products").deleteRow(-1);
+  }
+};
 
 function subscribe(source) {
   buttonDisplay("none", "block");
@@ -52,6 +62,8 @@ function endReceiving() {
   buttonDisplay("block", "none");
 
   requester.send("False");
+
+  clearTable();
 }
 
 function buttonDisplay(btns, vids) {
