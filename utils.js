@@ -45,7 +45,7 @@ function subscribe(source) {
   socket.send(source);
 
   receiveVideo();
-  // receiveDetection();
+  receiveDetection();
 }
 
 function endReceiving() {
