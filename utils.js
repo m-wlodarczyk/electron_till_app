@@ -14,22 +14,24 @@ let itemSubscriber = zmq.socket("sub");
 itemSubscriber.connect("tcp://127.0.0.1:5555");
 itemSubscriber.subscribe("item");
 
-function receiveVideo() {
+let counter = 1;
+
+const receiveVideo = () => {
   footageSubscriber.on("message", function(topic, message) {
     const img = document.getElementById("video");
     img.src = `data:image/jpeg;base64,${message}`;
   });
-}
+};
 
-function receiveDetection() {
+const receiveDetection = () => {
   itemSubscriber.on("message", function(topic, message) {
     console.log("Item");
     console.log(message);
     addItem("sample", "quantity");
   });
-}
+};
 
-function addItem(name, quantity) {
+const addItem = (name, quantity) => {
   let tableRef = document.getElementById("products");
   let row = tableRef.insertRow(-1);
 
@@ -37,36 +39,37 @@ function addItem(name, quantity) {
   let pName = row.insertCell(1);
   let pQuantity = row.insertCell(2);
 
-  num.innerHTML = "1";
+  num.innerHTML = counter;
   pName.innerHTML = name;
   pQuantity.innerHTML = quantity;
-  console.log(document.getElementById("products").rows.length - 1);
-}
+  counter++;
+};
 
 const clearTable = () => {
+  counter = 1;
   let rows = document.getElementById("products").rows.length - 1;
   for (let i = 0; i < rows; i++) {
     document.getElementById("products").deleteRow(-1);
   }
 };
 
-function subscribe(source) {
+const subscribe = source => {
   buttonDisplay("none", "block");
   socket.send(source);
 
   receiveVideo();
   receiveDetection();
-}
+};
 
-function endReceiving() {
+const endReceiving = () => {
   buttonDisplay("block", "none");
 
   requester.send("False");
 
   clearTable();
-}
+};
 
-function buttonDisplay(btns, vids) {
+const buttonDisplay = (btns, vids) => {
   document.getElementById("camera-btn").style.display = btns;
   document.getElementById("vid1-btn").style.display = btns;
   document.getElementById("vid2-btn").style.display = btns;
@@ -74,4 +77,4 @@ function buttonDisplay(btns, vids) {
 
   document.getElementById("video").style.display = vids;
   document.getElementById("stop").style.display = vids;
-}
+};

@@ -41,7 +41,7 @@
   display: none;
 }
 
-#table-wrapper {
+#basket-wrapper {
   margin-top: 20px;
   margin-left: 3%;
   margin-right: 3%;
@@ -50,4 +50,11 @@
   padding-left: 10px;
   padding-right: 10px;
   height: 550px;
+  /* overflow: auto; */
+}
+
+#table-wrapper {
+  width: 100%;
+  height: 450px;
+  overflow: auto;
 }
