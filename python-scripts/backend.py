@@ -3,6 +3,7 @@ import cv2
 import zmq
 import threading
 import base64
+import os
 
 from random import random
 
@@ -22,8 +23,9 @@ class Camera:
 
         self.__run = True
 
-        # self.products = np.zeros(11)
-        # self.products[0] = 11
+        self.path = os.getcwd()
+
+        self.products = np.zeros(11)
 
         end_rec_thread = threading.Thread(target=self.end_recording)
         end_rec_thread.start()
@@ -55,8 +57,11 @@ class Camera:
 
     def play_video(self):
         self.__run = True
-        cap = cv2.VideoCapture(
-            'C:\\Users\\mwlodarczyk\\Desktop\\studia\\electron_till_app\\videos\\IMG_5104.MOV')
+        vid_path = self.path + "\\videos\\IMG_5104.MOV"
+        # cap = cv2.VideoCapture(
+        #     'C:\\Users\\mwlodarczyk\\Desktop\\studia\\electron_till_app\\videos\\IMG_5104.MOV')
+
+        cap = cv2.VideoCapture(vid_path)
 
         while self.__run:
             grabbed, frame = cap.read()

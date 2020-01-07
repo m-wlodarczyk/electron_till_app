@@ -37,7 +37,7 @@ function run_script() {
 
 // Electron `app` is ready
 app.on("ready", createWindow);
-app.on("ready", run_script);
+// app.on("ready", run_script);
 
 // Quit when all windows are closed - (Not macOS - Darwin)
 app.on("window-all-closed", () => {
