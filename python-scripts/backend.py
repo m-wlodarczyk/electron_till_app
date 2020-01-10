@@ -53,7 +53,7 @@ class Camera:
     def detect(self):
         r = random()
         if r < 0.05:
-            self.__footage_socket.send_multipart([b'item', b'sample'])
+            self.__footage_socket.send_multipart([b'item', b'peanuts 1 5.99'])
 
     def play_video(self):
         self.__run = True

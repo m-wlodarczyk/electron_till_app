@@ -6,47 +6,76 @@ socket.connect("tcp://127.0.0.1:8889");
 let requester = zmq.socket("req");
 requester.connect("tcp://127.0.0.1:8888");
 
-let footageSubscriber = zmq.socket("sub");
-footageSubscriber.connect("tcp://127.0.0.1:5555");
-footageSubscriber.subscribe("video");
-
-let itemSubscriber = zmq.socket("sub");
-itemSubscriber.connect("tcp://127.0.0.1:5555");
-itemSubscriber.subscribe("item");
+let subscriber = zmq.socket("sub");
+subscriber.connect("tcp://127.0.0.1:5555");
+subscriber.subscribe("video");
+subscriber.subscribe("item");
 
 let counter = 1;
 
-const receiveVideo = () => {
-  footageSubscriber.on("message", function(topic, message) {
-    const img = document.getElementById("video");
-    img.src = `data:image/jpeg;base64,${message}`;
+let shoppingCart = {};
+
+const receiveData = () => {
+  subscriber.on("message", function(topic, message) {
+    topic = topic.toString();
+    switch (topic) {
+      case "video":
+        const img = document.getElementById("video");
+        img.src = `data:image/jpeg;base64,${message}`;
+        break;
+      case "item":
+        updateCart(message.toString());
+    }
   });
 };
 
-const receiveDetection = () => {
-  itemSubscriber.on("message", function(topic, message) {
-    console.log("Item");
-    console.log(message);
-    addItem("sample", "quantity");
-  });
+const updateCart = product => {
+  product = product.split(" ");
+
+  if (product[0] in shoppingCart) {
+    shoppingCart[product[0]].quantity += parseInt(product[1], 10);
+    updateItem(product[0]);
+  } else {
+    shoppingCart[product[0]] = {
+      quantity: 1,
+      price: parseFloat(product[2]),
+      index: counter
+    };
+    addItem(product[0]);
+  }
 };
 
-const addItem = (name, quantity) => {
+const addItem = productName => {
   let tableRef = document.getElementById("products");
   let row = tableRef.insertRow(-1);
 
   let num = row.insertCell(0);
   let pName = row.insertCell(1);
-  let pQuantity = row.insertCell(2);
+  let pPrice = row.insertCell(2);
+  let pQuantity = row.insertCell(3);
 
   num.innerHTML = counter;
-  pName.innerHTML = name;
-  pQuantity.innerHTML = quantity;
+  pName.innerHTML = productName;
+  pPrice.innerHTML =
+    shoppingCart[productName].quantity * shoppingCart[productName].price;
+  pQuantity.innerHTML = shoppingCart[productName].quantity;
   counter++;
+};
+
+const updateItem = productName => {
+  let row = document.getElementById("products").rows[
+    shoppingCart[productName].index
+  ].cells;
+
+  row[2].innerHTML = (
+    shoppingCart[productName].quantity * shoppingCart[productName].price
+  ).toFixed(2);
+  row[3].innerHTML = shoppingCart[productName].quantity;
 };
 
 const clearTable = () => {
   counter = 1;
+  shoppingCart = {};
   let rows = document.getElementById("products").rows.length - 1;
   for (let i = 0; i < rows; i++) {
     document.getElementById("products").deleteRow(-1);
@@ -56,9 +85,6 @@ const clearTable = () => {
 const subscribe = source => {
   buttonDisplay("none", "block");
   socket.send(source);
-
-  receiveVideo();
-  receiveDetection();
 };
 
 const endReceiving = () => {
