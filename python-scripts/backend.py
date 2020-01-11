@@ -6,6 +6,21 @@ import base64
 import os
 
 from random import random
+from random import randrange
+
+products = [
+    'peanuts 1 4.99',
+    'chips 1 3.49',
+    'chocolate 1 4.29',
+    'corn_cakes 1 3.51',
+    'gummy 1 6.49',
+    'toffifee 1 6.39',
+    'knoppers 1 1.79',
+    'lollipop 1 0.99',
+    'cookies 1 5.19',
+    'chewing_gum 1 0.99',
+    'snickers 1 1.89',
+]
 
 
 class Camera:
@@ -53,7 +68,9 @@ class Camera:
     def detect(self):
         r = random()
         if r < 0.05:
-            self.__footage_socket.send_multipart([b'item', b'peanuts 1 5.99'])
+            to_send = products[randrange(11)]
+            self.__footage_socket.send_multipart(
+                [b'item', str.encode(to_send)])
 
     def play_video(self):
         self.__run = True

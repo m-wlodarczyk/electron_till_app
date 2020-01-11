@@ -13,7 +13,10 @@ subscriber.subscribe("item");
 
 let counter = 1;
 
-let shoppingCart = {};
+let totalPrice = 0;
+let totalItems = 0;
+
+let shoppingCart = { totalPrice: 0, totalItems: 0 };
 
 const receiveData = () => {
   subscriber.on("message", function(topic, message) {
@@ -25,6 +28,7 @@ const receiveData = () => {
         break;
       case "item":
         updateCart(message.toString());
+        break;
     }
   });
 };
@@ -34,6 +38,8 @@ const updateCart = product => {
 
   if (product[0] in shoppingCart) {
     shoppingCart[product[0]].quantity += parseInt(product[1], 10);
+    shoppingCart.totalItems += parseInt(product[1], 10);
+    shoppingCart.totalPrice += shoppingCart[product[0]].price;
     updateItem(product[0]);
   } else {
     shoppingCart[product[0]] = {
@@ -41,8 +47,11 @@ const updateCart = product => {
       price: parseFloat(product[2]),
       index: counter
     };
+    shoppingCart.totalItems += parseInt(product[1], 10);
+    shoppingCart.totalPrice += parseFloat(product[2]);
     addItem(product[0]);
   }
+  updateTotal();
 };
 
 const addItem = productName => {
@@ -59,6 +68,7 @@ const addItem = productName => {
   pPrice.innerHTML =
     shoppingCart[productName].quantity * shoppingCart[productName].price;
   pQuantity.innerHTML = shoppingCart[productName].quantity;
+
   counter++;
 };
 
@@ -73,34 +83,54 @@ const updateItem = productName => {
   row[3].innerHTML = shoppingCart[productName].quantity;
 };
 
-const clearTable = () => {
+const updateTotal = () => {
+  let total = document.getElementById("total").rows[0].cells;
+  total[1].innerHTML = shoppingCart.totalPrice.toFixed(2);
+  total[3].innerHTML = shoppingCart.totalItems;
+};
+
+const clearProducts = () => {
   counter = 1;
-  shoppingCart = {};
+  shoppingCart = { totalPrice: 0, totalItems: 0 };
   let rows = document.getElementById("products").rows.length - 1;
   for (let i = 0; i < rows; i++) {
     document.getElementById("products").deleteRow(-1);
   }
 };
 
+const clearTotal = () => {
+  let total = document.getElementById("total").rows[0].cells;
+  total[1].innerHTML = 0;
+  total[3].innerHTML = 0;
+};
+
 const subscribe = source => {
-  buttonDisplay("none", "block");
+  buttonDisplay("none", "block", "none", "none");
   socket.send(source);
 };
 
 const endReceiving = () => {
-  buttonDisplay("block", "none");
+  buttonDisplay("none", "none", "block", "block");
 
   requester.send("False");
-
-  clearTable();
 };
 
-const buttonDisplay = (btns, vids) => {
-  document.getElementById("camera-btn").style.display = btns;
-  document.getElementById("vid1-btn").style.display = btns;
-  document.getElementById("vid2-btn").style.display = btns;
-  document.getElementById("logo").style.display = btns;
+const clearShopping = () => {
+  buttonDisplay("block", "none", "none", "block");
 
-  document.getElementById("video").style.display = vids;
-  document.getElementById("stop").style.display = vids;
+  clearProducts();
+  clearTotal();
+};
+
+const buttonDisplay = (main, sec, cls, logo) => {
+  document.getElementById("camera-btn").style.display = main;
+  document.getElementById("vid1-btn").style.display = main;
+  document.getElementById("vid2-btn").style.display = main;
+
+  document.getElementById("video").style.display = sec;
+  document.getElementById("stop").style.display = sec;
+
+  document.getElementById("clear").style.display = cls;
+
+  document.getElementById("logo").style.display = logo;
 };
