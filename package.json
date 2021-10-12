@@ -18,7 +18,7 @@
   },
   "homepage": "https://github.com/m-wlodarczyk/electron_till_app#readme",
   "devDependencies": {
-    "electron": "^7.1.6",
+    "electron": "^11.5.0",
     "electron-rebuild": "^1.8.8",
     "nodemon": "^2.0.2",
     "python-shell": "^1.0.8"
